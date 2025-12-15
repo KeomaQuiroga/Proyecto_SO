@@ -210,3 +210,9 @@ class VentanaEstadistica(tk.Frame):
         self.ax_red.legend()
         self.canvas_red.draw()
     # RED-FIN #
+
+    def detener_hilos(self):
+        self.net_th.join()
+        self.cpu_th.join()
+        self.ram_th.join()
+        self.disk_th.join()

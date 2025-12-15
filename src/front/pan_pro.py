@@ -74,3 +74,6 @@ class VentanaProcesos(tk.Frame):
         pid = fila[0]
         procesos.eliminar_proceso(int(pid))
         self.tv.delete(item)
+
+    def detener_hilos(self):
+        self.procesos_th.join()

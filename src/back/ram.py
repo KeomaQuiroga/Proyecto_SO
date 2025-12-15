@@ -63,14 +63,10 @@ def ram_porcentaje(q):
     x = np.array(x)
     q.put(x)
 
-def treemap():
+def treemap(q):
     m = []
-
-    plt.figure(figsize=(10, 6))
     mem = obtener_memoria_procesos()
     for i in mem:
         if i > 0:
             m.append(i)
-    squarify.plot(sizes=m, pad=0.0005)
-    plt.axis("off")
-    plt.show()
+    q.put(m)

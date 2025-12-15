@@ -50,6 +50,10 @@ class App(tk.Tk):
         frame.grid(row=1, column=0, columnspan=3, sticky="snew")
     
     def on_closing(self):
+        self.pantalla_estadistica.detener_hilos()
+        self.pantalla_memoria.detener_hilos()
+        self.pantalla_procesos.detener_hilos()
+
         self.destroy()
 
 if __name__ == "__main__":
