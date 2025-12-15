@@ -1,4 +1,5 @@
 from matplotlib.animation import FuncAnimation
+from queue import Queue
 import matplotlib.pyplot as plt
 import numpy as np
 import psutil

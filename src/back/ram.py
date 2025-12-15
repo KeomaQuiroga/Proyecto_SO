@@ -1,12 +1,10 @@
 from matplotlib.animation import FuncAnimation
-from pypalettes import load_cmap
+from queue import Queue
 import matplotlib.pyplot as plt
 import plotly.express as px
-import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 import psutil
-import squarify
 import procesos
 
 def porcentaje_memoria():
@@ -59,6 +57,13 @@ def fracc_memoria_basico():
 
     ani = FuncAnimation(fig=fig, func=update, frames=60)
     plt.show()
+
+def division_memoria(q):
+    mem = psutil.virtual_memory()
+    libre = mem.available()
+    uso = mem.total - libre
+    x = [libre, uso]
+    q.put(x)
 
 def fracc_memoria_avanzado():
     x = procesos.obtener_memoria_procesos()

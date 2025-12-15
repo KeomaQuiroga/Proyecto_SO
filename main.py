@@ -1,7 +1,7 @@
 import tkinter as tk
-import front.pan_est as pan_est
-import front.pan_mem as pan_mem
-import front.pan_pro as pan_pro
+import src.front.pan_est as pan_est
+import src.front.pan_mem as pan_mem
+import src.front.pan_pro as pan_pro
 
 class App(tk.Tk):
     def __init__(self):
@@ -17,7 +17,7 @@ class App(tk.Tk):
         self.pantalla_procesos = pan_pro.VentanaProcesos(self)
         self.pantalla_memoria = pan_mem.VentanaMemoria(self)
 
-        self.pantalla_estadistica.grid(row=1, column=0, sticky="snew")      # mostramos primera pantalla
+        self.pantalla_estadistica.grid(row=1, column=0, columnspan=3, sticky="snew")      # mostramos primera pantalla
 
         # botones para cambiar
         btn_estadistica = tk.Button(self, text="Estadistica", command=lambda: self.cambiar_pantalla(self.pantalla_estadistica))
@@ -33,6 +33,8 @@ class App(tk.Tk):
         btn_memoria.grid(row=0, column=2, sticky="we")
 
         # ajustar botones
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
@@ -42,7 +44,7 @@ class App(tk.Tk):
         self.pantalla_procesos.grid_remove()
         self.pantalla_memoria.grid_remove()
 
-        frame.grid(row=1, column=0, sticky="snew")
+        frame.grid(row=1, column=0, columnspan=3, sticky="snew")
 
 if __name__ == "__main__":
     root = App()
