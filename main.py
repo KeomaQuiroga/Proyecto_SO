@@ -1,4 +1,5 @@
 import tkinter as tk
+
 import src.front.pan_est as pan_est
 import src.front.pan_mem as pan_mem
 import src.front.pan_pro as pan_pro
@@ -32,6 +33,8 @@ class App(tk.Tk):
         btn_memoria.config(font=fuente)
         btn_memoria.grid(row=0, column=2, sticky="we")
 
+        self.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         # ajustar botones
         self.grid_rowconfigure(0, weight=0)
         self.grid_rowconfigure(1, weight=1)
@@ -45,6 +48,9 @@ class App(tk.Tk):
         self.pantalla_memoria.grid_remove()
 
         frame.grid(row=1, column=0, columnspan=3, sticky="snew")
+    
+    def on_closing(self):
+        self.destroy()
 
 if __name__ == "__main__":
     root = App()
