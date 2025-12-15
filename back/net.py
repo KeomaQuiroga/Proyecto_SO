@@ -19,32 +19,25 @@ def mostrar_red(tipo):
 
         if tipo == 0:
             lb = "Recibiendo bytes/s"
-            dif = diferencia_descarga(red, r1)      # tomamos diferencia y actualizamos
+            dif = diferencia_descarga(red, r1)
         elif tipo == 1:
             lb = "Enviando bytes/s"
-            dif = diferencia_carga(red, s1)     # tomamos diferencia y actualizamos
+            dif = diferencia_carga(red, s1)
 
-        #vlb = ""
-        #if dif > 1000000:
-        #    vlb = " MB/s"
-        #elif dif > 1000:
-        #    vlb = " KB/s"
-        #else:
-        #    vlb = " byte/s"
-
-        x.append(dif)
+        x.append(dif)       # diferencia entre final e inicial
         if len(x) > 60:     
             x.pop(0)        # eliminamos el primer elemento
         x = np.array(x)
 
         ax.clear()      # limpiamos la tabla
-        ax.plot(x, label=lb)
+        ax.plot(x[::-1], label=lb)
         
         ax.set_title("Uso Red")
         ax.set_xlabel("Tiempo (s)")
         ax.set_ylabel("Velocidad")
         ax.legend()
         ax.set_xlim(0, 60)      # mostrar maximo un minuto
+        ax.invert_xaxis()
 
     ani = FuncAnimation(fig=fig, func=update, frames=60, fargs=(x,))
     plt.show()
@@ -56,5 +49,3 @@ def diferencia_descarga(red, r1):
 def diferencia_carga(red, s1):
     s2 = red.bytes_sent
     return s2 - s1
-
-mostrar_red(0)
