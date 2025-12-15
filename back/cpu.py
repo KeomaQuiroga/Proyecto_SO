@@ -1,6 +1,8 @@
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import numpy as np
+import queue as Queue
 import psutil
 
 def porcentaje_cpu():
@@ -32,5 +34,3 @@ def porcentaje_cpu():
 
     ani = FuncAnimation(fig=fig, func=update, frames=60, fargs=(x,))
     plt.show()
-
-porcentaje_cpu()
