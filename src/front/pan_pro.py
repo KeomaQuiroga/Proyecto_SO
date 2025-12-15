@@ -44,6 +44,7 @@ class VentanaProcesos(tk.Frame):
             self.tv.heading(heads[n], text=heads[n])
 
         self.tv.grid(row=0, column=0, sticky="snew")
+        self.tv.bind("<Button-3>", self.menu)
 
     def llenar(self):
         procs = self.q_procesos.get()       # obtener procesos
@@ -55,3 +56,21 @@ class VentanaProcesos(tk.Frame):
         # agregar
         for p in procs:
             self.tv.insert("", "end", values=(p[0], p[1], p[2], p[3], p[4], p[5]))
+
+    def menu(self, event):
+        iid = self.tv.identify_row(event.y)
+        if iid:
+            self.tv.selection_set(iid)
+            self.eliminar_fila()
+
+
+    def eliminar_fila(self, event=None):
+        sel = self.tv.selection()
+        if not sel:
+            return
+        item = sel[0]
+        fila = self.tv.item(item, "values")
+        
+        pid = fila[0]
+        procesos.eliminar_proceso(int(pid))
+        self.tv.delete(item)

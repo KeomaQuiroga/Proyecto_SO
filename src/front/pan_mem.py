@@ -60,17 +60,15 @@ class VentanaMemoria(tk.Frame):
     
     def grafico_ram(self):
         data_ram = self.cola_ram.get()
-        if data_ram:
-            self.ax_ram.clear()
-            self.ax_ram.pie(data_ram, labels=self.etiquetas, autopct="%0.1f%%")
-            self.canvas_ram.draw()
+        self.ax_ram.clear()
+        self.ax_ram.pie(data_ram, labels=self.etiquetas, autopct="%0.1f%%")
+        self.canvas_ram.draw()
 
     def grafico_disco(self):
         data_disk = self.cola_disco.get()
-        if data_disk:
-            self.ax_disk.clear()
-            self.ax_disk.pie(data_disk, labels=self.etiquetas, autopct="%0.1f%%")
-            self.canvas_disk.draw()
+        self.ax_disk.clear()
+        self.ax_disk.pie(data_disk, labels=self.etiquetas, autopct="%0.1f%%")
+        self.canvas_disk.draw()
 
     def actualizar(self):
         self.grafico_ram()

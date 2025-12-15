@@ -16,8 +16,8 @@ def obtener_procesos(q):
                     memoria, lb = transformar(memoria)
                     memoria = str(memoria) + lb
                 except:
-                    memoria = "NaN"     # si no puede
-        except Exception:
+                    memoria = "NaN"     # si no se tiene acceso
+        except Exception:       # por si un proceso no existe
             continue
         procs.append((p_id, nombre, username, cpu_per, estado, memoria))
     q.put(procs)
@@ -37,3 +37,7 @@ def transformar(mem):
         lb = " bytes"
 
     return round(mem, 2), lb
+
+def eliminar_proceso(pid):
+    p = psutil.Process(pid)
+    p.kill()

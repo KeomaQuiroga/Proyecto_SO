@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 import pandas as pd
+import squarify
 import psutil
 
 def division_memoria(q):
@@ -61,3 +62,15 @@ def ram_porcentaje(q):
     x.append([mem, swap])
     x = np.array(x)
     q.put(x)
+
+def treemap():
+    m = []
+
+    plt.figure(figsize=(10, 6))
+    mem = obtener_memoria_procesos()
+    for i in mem:
+        if i > 0:
+            m.append(i)
+    squarify.plot(sizes=m, pad=0.0005)
+    plt.axis("off")
+    plt.show()

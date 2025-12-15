@@ -68,6 +68,7 @@ class VentanaEstadistica(tk.Frame):
         self.grafico_cpu()
         self.grafico_ram()
         self.grafico_disco()
+        self.grafico_red()
         self.after(1000, self.actualizar)
 
     # CPU-INICIO #
@@ -178,11 +179,11 @@ class VentanaEstadistica(tk.Frame):
     # RED-INICIO #
     def mostrar_red(self):
         # canvas
-        self.fig_disco = plt.figure(figsize=(4, 4))
-        self.ax_disco = self.fig_disco.add_subplot(111)
-        self.canvas_disco = FigureCanvasTkAgg(figure=self.fig_disco, master=self)
-        self.canvas_widget_disco = self.canvas_disco.get_tk_widget()
-        self.canvas_widget_disco.grid(row=0, column=1, sticky="snew", padx="10", rowspan=4)
+        self.fig_red = plt.figure(figsize=(4, 4))
+        self.ax_red = self.fig_red.add_subplot(111)
+        self.canvas_red = FigureCanvasTkAgg(figure=self.fig_red, master=self)
+        self.canvas_widget_red = self.canvas_red.get_tk_widget()
+        self.canvas_widget_red.grid(row=0, column=1, sticky="snew", padx="10", rowspan=4)
 
     def obtener_red(self):
         while True:
@@ -197,15 +198,15 @@ class VentanaEstadistica(tk.Frame):
             self.datos_net.pop(0)
         self.datos_net_np = np.array(self.datos_net)
 
-        self.ax_disco.clear()
-        self.ax_disco.plot(self.datos_net_np[::-1, 0], label="Enviando")
-        self.ax_disco.plot(self.datos_net_np[::-1, 1], label="Recibiendo")
+        self.ax_red.clear()
+        self.ax_red.plot(self.datos_net_np[::-1, 0], label="Enviando")
+        self.ax_red.plot(self.datos_net_np[::-1, 1], label="Recibiendo")
 
-        self.ax_disco.set_xlabel("Tiempo (s)")
-        self.ax_disco.set_ylabel("Velocidad (bytes/s)")
+        self.ax_red.set_xlabel("Tiempo (s)")
+        self.ax_red.set_ylabel("Velocidad (bytes/s)")
 
-        self.ax_disco.set_xlim(0, 60)      # mostrar maximo un minuto
-        self.ax_disco.invert_xaxis()       # invertimos
-        self.ax_disco.legend()
-        self.canvas_disco.draw()
+        self.ax_red.set_xlim(0, 60)      # mostrar maximo un minuto
+        self.ax_red.invert_xaxis()       # invertimos
+        self.ax_red.legend()
+        self.canvas_red.draw()
     # RED-FIN #
