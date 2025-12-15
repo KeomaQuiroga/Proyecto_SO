@@ -1,7 +1,7 @@
 import tkinter as tk
-import front.estadistica as estadistica
-import front.memoria as memoria
-import front.procesos as procesos
+import front.pan_est as pan_est
+import front.pan_mem as pan_mem
+import front.pan_pro as pan_pro
 
 class App(tk.Tk):
     def __init__(self):
@@ -13,9 +13,9 @@ class App(tk.Tk):
         fuente = ("Arial", 20)
 
         # pantallas principales
-        self.pantalla_estadistica = estadistica.VentanaEstadistica(self)
-        self.pantalla_procesos = procesos.VentanaProcesos(self)
-        self.pantalla_memoria = memoria.VentanaMemoria(self)
+        self.pantalla_estadistica = pan_est.VentanaEstadistica(self)
+        self.pantalla_procesos = pan_pro.VentanaProcesos(self)
+        self.pantalla_memoria = pan_mem.VentanaMemoria(self)
 
         self.pantalla_estadistica.grid(row=1, column=0, sticky="snew")      # mostramos primera pantalla
 
