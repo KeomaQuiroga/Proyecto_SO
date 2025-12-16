@@ -12,6 +12,7 @@ class VentanaEstadistica(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
+        self.parada= threading.Event()
 
         # listas necesarios
         self.datos_cpu = []
@@ -74,15 +75,16 @@ class VentanaEstadistica(tk.Frame):
     # CPU-INICIO #
     def mostrar_cpu(self):
         # canvas
-        self.fig_cpu = plt.figure(figsize=(4, 4))
+        self.fig_cpu = plt.figure()
         self.ax_cpu = self.fig_cpu.add_subplot(111)
         self.canvas_cpu = FigureCanvasTkAgg(figure=self.fig_cpu, master=self)
         self.canvas_widget_cpu = self.canvas_cpu.get_tk_widget()
         self.canvas_widget_cpu.grid(row=0, column=1, sticky="snew", padx="10", rowspan=4)
 
     def obtener_cpu(self):
-        while True:
+        while not self.parada.is_set():
             cpu.cpu_porcentaje(self.cpu_cola)
+            time.sleep(1)
 
     def grafico_cpu(self):
         data_cpu = self.cpu_cola.get()
@@ -109,14 +111,14 @@ class VentanaEstadistica(tk.Frame):
     # RAM-INICIO #
     def mostrar_ram(self):
         # canvas
-        self.fig_ram = plt.figure(figsize=(4, 4))
+        self.fig_ram = plt.figure()
         self.ax_ram = self.fig_ram.add_subplot(111)
         self.canvas_ram = FigureCanvasTkAgg(figure=self.fig_ram, master=self)
         self.canvas_widget_ram = self.canvas_ram.get_tk_widget()
         self.canvas_widget_ram.grid(row=0, column=1, sticky="snew", padx="10", rowspan=4)
 
     def obtener_Ram(self):
-        while True:
+        while not self.parada.is_set():
             ram.ram_porcentaje(self.ram_cola)
             time.sleep(1)
 
@@ -144,15 +146,16 @@ class VentanaEstadistica(tk.Frame):
     # DISCO-INICIO #
     def mostrar_disco(self):
         # canvas
-        self.fig_disco = plt.figure(figsize=(4, 4))
+        self.fig_disco = plt.figure()
         self.ax_disco = self.fig_disco.add_subplot(111)
         self.canvas_disco = FigureCanvasTkAgg(figure=self.fig_disco, master=self)
         self.canvas_widget_disco = self.canvas_disco.get_tk_widget()
         self.canvas_widget_disco.grid(row=0, column=1, sticky="snew", padx="10", rowspan=4)
 
     def obtener_disco(self):
-        while True:
+        while not self.parada.is_set():
             almacenamiento.lect_escrt(self.disk_cola)
+            time.sleep(1)
 
     def grafico_disco(self):
         data_disk = self.disk_cola.get()
@@ -179,15 +182,16 @@ class VentanaEstadistica(tk.Frame):
     # RED-INICIO #
     def mostrar_red(self):
         # canvas
-        self.fig_red = plt.figure(figsize=(4, 4))
+        self.fig_red = plt.figure()
         self.ax_red = self.fig_red.add_subplot(111)
         self.canvas_red = FigureCanvasTkAgg(figure=self.fig_red, master=self)
         self.canvas_widget_red = self.canvas_red.get_tk_widget()
-        self.canvas_widget_red.grid(row=0, column=1, sticky="snew", padx="10", rowspan=4)
+        self.canvas_widget_red.grid(row=0, column=1, padx="10", rowspan=4)
 
     def obtener_red(self):
-        while True:
+        while not self.parada.is_set():
             net.carga_descarga(self.net_cola)
+            time.sleep(1)
 
     def grafico_red(self):
         data_disk = self.net_cola.get()
@@ -212,6 +216,7 @@ class VentanaEstadistica(tk.Frame):
     # RED-FIN #
 
     def detener_hilos(self):
+        self.parada.set()       # señal
         self.net_th.join()
         self.cpu_th.join()
         self.ram_th.join()

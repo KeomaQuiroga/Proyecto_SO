@@ -9,6 +9,7 @@ class VentanaProcesos(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
+        self.parada= threading.Event()
         self.q_procesos = Queue()
 
         self.mostrar_procesos()
@@ -27,7 +28,7 @@ class VentanaProcesos(tk.Frame):
         self.after(1000, self.actualizar)
 
     def get_procesos(self):
-        while True:
+        while not self.parada.is_set():
             procesos.obtener_procesos(self.q_procesos)
             time.sleep(1)
 
@@ -76,4 +77,5 @@ class VentanaProcesos(tk.Frame):
         self.tv.delete(item)
 
     def detener_hilos(self):
+        self.parada.set()       # señal
         self.procesos_th.join()

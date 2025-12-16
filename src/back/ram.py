@@ -1,23 +1,15 @@
-from matplotlib.animation import FuncAnimation
 from queue import Queue
-import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 import pandas as pd
-import squarify
 import psutil
 
-def division_memoria(q):
-    """
-    Devuelve la memoria disponible y la memoria libre (RAM ambas)
-    
-    :param q: Queue para compartir entre procesos
-    """
+def division_memoria(q_DM):
     mem = psutil.virtual_memory()
     libre = mem.available
     uso = mem.total - libre
     x = [libre, uso]
-    q.put(x)
+    q_DM.put(x)
 
 def fracc_memoria_avanzado():
     x = obtener_memoria_procesos()
@@ -50,23 +42,18 @@ def obtener_nombre_procesos():
         
     return proc_name
 
-def ram_porcentaje(q):
-    """
-    Devuelve el procentaje de RAM que se usas
-    
-    :param q: Queue para compartir datos
-    """
+def ram_porcentaje(q_R):
     x = []
     mem = psutil.virtual_memory().percent       # ram
     swap = psutil.swap_memory().percent     # swap
     x.append([mem, swap])
     x = np.array(x)
-    q.put(x)
+    q_R.put(x)
 
-def treemap(q):
+def treemap(q_T):
     m = []
     mem = obtener_memoria_procesos()
     for i in mem:
         if i > 0:
             m.append(i)
-    q.put(m)
+    q_T.put(m)

@@ -1,7 +1,7 @@
 from queue import Queue
 import psutil
 
-def obtener_procesos(q):
+def obtener_procesos(q_OP):
     procs = []
     for p in psutil.process_iter():
         try:
@@ -20,7 +20,7 @@ def obtener_procesos(q):
         except Exception:       # por si un proceso no existe
             continue
         procs.append((p_id, nombre, username, cpu_per, estado, memoria))
-    q.put(procs)
+    q_OP.put(procs)
 
 def transformar(mem):
     # transformar de bytes a su correspondiente tamaño

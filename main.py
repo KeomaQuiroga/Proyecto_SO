@@ -1,8 +1,5 @@
 import tkinter as tk
-
-import src.front.pan_est as pan_est
-import src.front.pan_mem as pan_mem
-import src.front.pan_pro as pan_pro
+from src.front import pan_est, pan_mem, pan_pro
 
 class App(tk.Tk):
     def __init__(self):
@@ -50,6 +47,7 @@ class App(tk.Tk):
         frame.grid(row=1, column=0, columnspan=3, sticky="snew")
     
     def on_closing(self):
+        # parar hilos de cada proceso
         self.pantalla_estadistica.detener_hilos()
         self.pantalla_memoria.detener_hilos()
         self.pantalla_procesos.detener_hilos()

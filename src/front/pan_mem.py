@@ -13,6 +13,7 @@ class VentanaMemoria(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
+        self.parada= threading.Event()
 
         # colas
         self.cola_ram = Queue()        # cola para memoria
@@ -56,12 +57,12 @@ class VentanaMemoria(tk.Frame):
         self.actualizar()
 
     def obtener_memoria(self):
-        while True:
+        while not self.parada.is_set():
             ram.division_memoria(self.cola_ram)
             time.sleep(1)
     
     def obtener_disco(self):
-        while True:
+        while not self.parada.is_set():
             almacenamiento.division_disco(self.cola_disco)
             time.sleep(1)
     
@@ -127,5 +128,6 @@ class VentanaMemoria(tk.Frame):
         self.canvas_tree.draw()
 
     def detener_hilos(self):
+        self.parada.set()       # señal
         self.thread_ram.join()
         self.thread_disk.join()
